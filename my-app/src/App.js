@@ -48,7 +48,9 @@ class App extends Component {
           console.log(res.data)
           if(res.data.items.length){
             console.log("Running collecting data function")
+            setTimeout(()=> {
             this.collectTreasure();
+            }, res.data.cooldown)
           } else{
             console.log("There no item to collect");
           }
@@ -137,13 +139,17 @@ autoExploring(time, dir) {
     .then(res => {
       if(res.data.items.length){
         console.log("Running collecting data function from auto")
-        this.collectTreasure();
+        setTimeout(()=> {
+          this.collectTreasure();
+          }, res.data.cooldown)
       } else{
         console.log("There no item to collect");
       }
       if(res.data.title == "Shop"){
-        console.log("Running selling treasue function from auto")
-        this.sellTreasure();
+        console.log("Running selling treasure function from auto")
+        setTimeout(()=> {
+          this.sellTreasure();
+          }, res.data.cooldown)
       } else{
         console.log("There no shop to sell");
       }
