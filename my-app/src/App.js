@@ -102,6 +102,17 @@ sellTreasure = ()=>{
   // }
 }
 ///////////////////////////////////////////////////
+nameChanger = ()=>{
+  console.log("Collecting treasure: ")
+  let newName = { 'name': '[Mr Lion]'}
+  axios
+    .post(`${URL}/change_name`, newName, config)
+    .then( res => {
+        console.log("Name change successful")
+      })
+    .catch(error => console.log(error));
+}
+///////////////////////////////////////////////////
 makingGraph = (id, coords, exits) => {
   let graph = Object.assign({}, this.state.graph);
   if (!this.state.graph[id]) {
@@ -152,7 +163,11 @@ autoExploring(time, dir) {
         setTimeout(()=> {
           this.sellTreasure();
         }, res.data.cooldown * 1001)
-      } else{
+      } else if(res.data.title == "Pirate Ry's" || res.data.room_id == 467){
+        setTimeout(()=> {
+          this.nameChanger();
+        }, res.data.cooldown * 1001)
+      }else{
         console.log("There no shop to sell");
       }
       const { room_id, coordinates, exits } = res.data;
@@ -222,7 +237,7 @@ autoExploring(time, dir) {
         <Header />
         <Body map={map} currentRoomMapIndex={currentRoomMapIndex} curRoom= {curRoom} currentRoom={currentRoom} currentPlayer={currentPlayer} />
         <Footer autoTraversal = {this.autoTraversal} direction={this.direction} currentRoom={currentRoom} />
-        <button onClick={this.collectTreasure}> collect </button>
+  
       </AppContainer>
     );
   }
