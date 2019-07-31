@@ -50,13 +50,15 @@ class App extends Component {
             console.log("Running collecting data function")
             setTimeout(()=> {
             this.collectTreasure();
-            }, res.data.cooldown)
+            }, res.data.cooldown * 1001)
           } else{
             console.log("There no item to collect");
           }
-          if(res.data.title == "Shop"){
+          if(res.data.title == "Shop" ){
             console.log("Running selling treasue function")
-            this.sellTreasure();
+            setTimeout(()=> {
+              this.sellTreasure();
+            }, res.data.cooldown * 1001)
           } else{
             console.log("There no shop to sell");
           }
@@ -86,13 +88,13 @@ class App extends Component {
   }
 ////////////////////////////////////////////////////
 sellTreasure = ()=>{
-  console.log("Collecting treasure: ")
-  let treasureName = { 'name': 'treasure'}
+  console.log("Selling treasure: ")
+  let treasureName = { 'name': 'treasure', "confirm":"yes"}
   // try{
   axios
     .post(`${URL}/sell/`, treasureName, config)
     .then( res => {
-        console.log("Just sold a treasure")
+        console.log("Just sold a treasure" )
       })
     .catch(error => console.log(error));
   // }catch(error){
