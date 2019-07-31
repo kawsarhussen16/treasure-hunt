@@ -70,10 +70,10 @@ class App extends Component {
   /////////////////////////////////////////////////////
   collectTreasure = ()=>{
     console.log("Collecting treasure: ")
-    let treasureName = { 'name': 'treasure'}
+    let treasure = {'name': 'treasure'}
     // try{
     axios
-      .post(`${URL}/take`, treasureName, config)
+      .post(`${URL}/take/`, treasure, config)
       .then( res => {
           this.setState({treasure: res.data.items})
           console.log("Trying to collect treasure" + res.data);
@@ -90,7 +90,7 @@ sellTreasure = ()=>{
   let treasureName = { 'name': 'treasure'}
   // try{
   axios
-    .post(`${URL}/sell`, treasureName, config)
+    .post(`${URL}/sell/`, treasureName, config)
     .then( res => {
         console.log("Just sold a treasure")
       })
