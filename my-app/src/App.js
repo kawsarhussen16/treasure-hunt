@@ -76,7 +76,7 @@ class App extends Component {
       .post(`${URL}/take/`, treasure, config)
       .then( res => {
           this.setState({treasure: res.data.items})
-          console.log("Trying to collect treasure" + res.data);
+          console.log("Trying to collect treasure: " + res.data.items);
           console.log(this.state.treasure)
         })
       .catch(error => console.log(error));
@@ -141,7 +141,7 @@ autoExploring(time, dir) {
         console.log("Running collecting data function from auto")
         setTimeout(()=> {
           this.collectTreasure();
-          }, res.data.cooldown)
+        }, res.data.cooldown * 1001)
       } else{
         console.log("There no item to collect");
       }
@@ -149,7 +149,7 @@ autoExploring(time, dir) {
         console.log("Running selling treasure function from auto")
         setTimeout(()=> {
           this.sellTreasure();
-          }, res.data.cooldown)
+        }, res.data.cooldown * 1001)
       } else{
         console.log("There no shop to sell");
       }
@@ -220,6 +220,7 @@ autoExploring(time, dir) {
         <Header />
         <Body map={map} currentRoomMapIndex={currentRoomMapIndex} curRoom= {curRoom} currentRoom={currentRoom} currentPlayer={currentPlayer} />
         <Footer autoTraversal = {this.autoTraversal} direction={this.direction} currentRoom={currentRoom} />
+        <button onClick={this.collectTreasure}> collect </button>
       </AppContainer>
     );
   }
