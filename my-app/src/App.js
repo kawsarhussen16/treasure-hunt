@@ -2,15 +2,17 @@ import React, { Component }  from 'react';
 import Header from './components/Header';
 import Body from './components/Body';
 import Footer from './components/Footer';
-import { initTestMap ,initTestCurrentRoom , initTestCurrentPlayer, currentRoomCoordsToIndex } from './gameFunctions/';
+import { initTestMap , currentRoomCoordsToIndex , addRoomToMap } from './gameFunctions/';
 import './App.css';
 import styled from 'styled-components';
 import axios from 'axios';
-
+// import { URL, config} from './components/env'
 ////////////////////////////////////////////////////
 const URL = "https://lambda-treasure-hunt.herokuapp.com/api/adv"
 const config = {
-  headers: {Authorization: "Token 3d043586b25429e278eba26bfe1426267ecdf1f0"}
+    headers: {Authorization: "Token 3d043586b25429e278eba26bfe1426267ecdf1f0"}
+  // headers: {Authorization: "Token 07bc71474be560896f01e1b6e8202fd12628ead8"}
+  // headers: {Authorization: "Token 80bd0d5dc2befdd2bb01d014daeb9b1780c36cf2"}
 }
 const AppContainer = styled.div`
   display: flex;
@@ -21,22 +23,19 @@ const AppContainer = styled.div`
 class App extends Component {
   constructor(props) {
     super(props);
+    this.direction = this.direction.bind(this);
     this.state = {
       map: initTestMap(),
       players: [],
-      currentRoom: initTestCurrentRoom(),
-      currentPlayer: initTestCurrentPlayer(),
       graph : {},
       curRoom : {},
       player: {},
-      currentRoomMapIndex: 1830,
       treasure: {},
     };
   }
   componentDidMount(){
-    // console.log("Hello");  
+    console.log("CompDidMount");  
     this.getCurrentinfo();   
-    // console.log(localStorage.getItem('map')); 
   }
 ////////////////////////////////////////////////////
   getCurrentinfo = ()=> {
@@ -44,18 +43,26 @@ class App extends Component {
       axios
       .get(`${URL}/init`, config)
         .then( res =>{
-          this.setState({curRoom : res.data})
-          console.log(res.data)
+          this.setState(prevState => {
+            return {
+              ...prevState,
+              curRoom : res.data,
+              map: addRoomToMap(this.state.map, res.data),
+            };
+          });
           if(res.data.items.length){
-            console.log("Running collecting data function")
             setTimeout(()=> {
-            this.collectTreasure();
+              this.collectTreasure();
             }, res.data.cooldown * 1001)
-          } else{
+          }else if(res.data.title == "Pirate Ry's" || res.data.room_id == 467){
+            setTimeout(()=> {
+              this.nameChanger();
+            }, res.data.cooldown * 1001)
+          }
+          else{
             console.log("There no item to collect");
           }
-          if(res.data.title == "Shop" ){
-            console.log("Running selling treasue function")
+          if(res.data.title == "Shop"){
             setTimeout(()=> {
               this.sellTreasure();
             }, res.data.cooldown * 1001)
@@ -72,36 +79,29 @@ class App extends Component {
   /////////////////////////////////////////////////////
   collectTreasure = ()=>{
     console.log("Collecting treasure: ")
-    let treasure = {'name': 'treasure'}
-    // try{
+    let treasureName = { 'name': 'treasure'}
     axios
-      .post(`${URL}/take/`, treasure, config)
+      .post(`${URL}/take`, treasureName, config)
       .then( res => {
           this.setState({treasure: res.data.items})
-          console.log("Trying to collect treasure: " + res.data.items);
+          console.log("Trying to collect treasure" + res.data);
           console.log(this.state.treasure)
         })
       .catch(error => console.log(error));
-    // }catch(error){
-      // console.log("Could not collect item");
-    // }
   }
 ////////////////////////////////////////////////////
 sellTreasure = ()=>{
-  console.log("Selling treasure: ")
-  let treasureName = { 'name': 'treasure', "confirm":"yes"}
-  // try{
+  console.log("Collecting treasure: ")
+  let treasureName = { 'name': 'treasure'}
   axios
-    .post(`${URL}/sell/`, treasureName, config)
+    .post(`${URL}/sell`, treasureName, config)
     .then( res => {
-        console.log("Just sold a treasure" )
+        console.log("Just sold a treasure")
       })
     .catch(error => console.log(error));
-  // }catch(error){
-    // console.log("Could not sell item");
-  // }
 }
-///////////////////////////////////////////////////
+
+////////////////////////////////////////////////////
 nameChanger = ()=>{
   console.log("Collecting treasure: ")
   let newName = { 'name': '[Mr Lion]'}
@@ -138,7 +138,14 @@ direction= (dir)=> {
         const { room_id, coordinates, exits } = res.data;
         let graph = this.makingGraph(room_id, coordinates, exits)
 
-        this.setState({ curRoom: res.data, graph: graph });
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            curRoom : res.data,
+            graph: graph,
+            map: addRoomToMap(this.state.map, res.data),
+          };
+        });
       })
       .catch(error => console.log(error));
     };
@@ -151,7 +158,6 @@ autoExploring(time, dir) {
     .post(`${URL}/move`, movement , config)
     .then(res => {
       if(res.data.items.length){
-        console.log("Running collecting data function from auto")
         setTimeout(()=> {
           this.collectTreasure();
         }, res.data.cooldown * 1001)
@@ -159,7 +165,6 @@ autoExploring(time, dir) {
         console.log("There no item to collect");
       }
       if(res.data.title == "Shop"){
-        console.log("Running selling treasure function from auto")
         setTimeout(()=> {
           this.sellTreasure();
         }, res.data.cooldown * 1001)
@@ -167,12 +172,22 @@ autoExploring(time, dir) {
         setTimeout(()=> {
           this.nameChanger();
         }, res.data.cooldown * 1001)
-      }else{
-        console.log("There no shop to sell");
+      }
+       else{
+        console.log("There no shop to sell or name change");
       }
       const { room_id, coordinates, exits } = res.data;
       let graph = this.makingGraph(room_id, coordinates, exits)
-      this.setState({ curRoom: res.data, graph:graph });
+
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          curRoom : res.data,
+          graph: graph,
+          map: addRoomToMap(this.state.map, res.data),
+        };
+      });
+
       time();
     })
     .catch(error => console.log("Auto exploring error" + error));
@@ -229,15 +244,18 @@ autoExploring(time, dir) {
   };
 
   render() {
-    let {map, currentRoom, currentPlayer, curRoom} = this.state
-    let currentRoomMapIndex = currentRoomCoordsToIndex(this.state.currentRoom.coordinates);
+    let {map, /*currentRoom, currentPlayer,*/ curRoom, graph} = this.state
+    let currentRoomMapIndex = null
+    if(Object.entries(this.state.curRoom).length !== 0 && this.state.curRoom.constructor === Object){
+      console.log('*')
+      currentRoomMapIndex = currentRoomCoordsToIndex(this.state.curRoom.coordinates);
+    }
     console.log('**app.js**')
     return (
       <AppContainer>
         <Header />
-        <Body map={map} currentRoomMapIndex={currentRoomMapIndex} curRoom= {curRoom} currentRoom={currentRoom} currentPlayer={currentPlayer} />
-        <Footer autoTraversal = {this.autoTraversal} direction={this.direction} currentRoom={currentRoom} />
-  
+        <Body map={map} currentRoomMapIndex={currentRoomMapIndex} curRoom={curRoom} /*currentRoom={currentRoom} currentPlayer={currentPlayer}*/ graph={graph} />
+        <Footer autoTraversal = {this.autoTraversal} direction={this.direction} /*currentRoom={currentRoom}*/ />
       </AppContainer>
     );
   }
