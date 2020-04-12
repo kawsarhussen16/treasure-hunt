@@ -2,7 +2,7 @@ import React from 'react';
 import { HeaderContainer, Title, Item, HeaderToggle } from "./header.style"
 const Header = () => (
     <HeaderContainer>
-        <Title>Lambda Treasure Hunt</Title>
+        <Title>Treasure Hunt</Title>
         <HeaderToggle>
             <Item>Map</Item>
             <Item>About</Item>
