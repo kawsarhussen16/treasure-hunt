@@ -5,23 +5,40 @@ import PlayerDetails from '../player-detail';
 import styled from 'styled-components';
 
 const BodyContainer = styled.div`
+width: 100%;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const BodyRightContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
+  width: 25%;
+  @media screen and (max-width: 700px) {
+      width: 100%;
+  }
 `;
+const MapBody = styled.div`
+  width: 75%;
+  background: black;
+  display: flex;
+  justify-content:center;
+  @media screen and (max-width: 700px) {
+      width: 100%;
+      display: block;
+      margin-left: -70px;
+  }
 
-
+`;
 class Body extends Component {
 
     render() {
         let { map, currentRoom, currentRoomMapIndex, curRoom } = this.props
         return (
             <BodyContainer>
-                <GameMap gameMap={map} currentRoomMapIndex={currentRoomMapIndex} />
+                <MapBody>
+                    <GameMap gameMap={map} currentRoomMapIndex={currentRoomMapIndex} />
+                </MapBody>
                 <BodyRightContainer>
                     <RoomDetails room={currentRoom} curRoom={curRoom} />
                     <PlayerDetails cooldown={curRoom.cooldown} player={curRoom.players} />

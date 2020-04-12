@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 export const PlayerDetailsContainer = styled.div`
+width: 100%;
 display: flex;
 flex-direction: column;
 background: #7dccbe;

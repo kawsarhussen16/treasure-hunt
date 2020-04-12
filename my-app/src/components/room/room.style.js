@@ -3,6 +3,10 @@ export const RoomCell = styled.div`
   height: 14px;
   width: 14px;
   margin: 1px;
+  @media screen and (max-width: 700px) {
+    height: 6px;
+    width: 6px;
+  }
   border-top: ${({ roomWalls, color }) =>
     (color === 'black' && '3px solid black') ||
     (roomWalls.indexOf('n') !== -1 && '3px solid #B71C1C') ||

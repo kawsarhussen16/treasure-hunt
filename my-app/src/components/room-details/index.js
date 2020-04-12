@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { RoomDetailsContainer, IDContainer, Title, Item, DetailsContainer, Message } from "./room-detail.style"
 class RoomDetails extends Component {
-
     render() {
         const { room_id, title, description, players, items, exits, cooldown, messages } = this.props.curRoom;
         let opt = ""
@@ -30,7 +29,7 @@ class RoomDetails extends Component {
                         <div>{(players && players.length) ? players : "No Player"}</div>
                     </Item>
                     <div><Title>Cooldown time: </Title>{cooldown ? cooldown : 0} seconds</div>
-                    <div><Title>Moving Options: </Title>{opt ? (opt.slice(0, opt.length - 2)) : "None"} </div>
+                    <div><Title>Moving Options: </Title>{opt || upperExits ? (opt.slice(0, opt.length - 2)) : "None"} </div>
 
                 </DetailsContainer>
             </RoomDetailsContainer>
