@@ -27,7 +27,8 @@ const MapBody = styled.div`
   @media screen and (max-width: 600px) {
       width: 100%;
       display: block;
-      margin-left: -70px;
+      margin-left: -40px;
+      overflow-x: hidden;
   }
 
 `;
