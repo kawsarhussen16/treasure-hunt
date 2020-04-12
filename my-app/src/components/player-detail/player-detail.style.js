@@ -4,7 +4,6 @@ width: 100%;
 display: flex;
 flex-direction: column;
 background: #7dccbe;
-padding-top: 20px;
 `;
 
 export const TopContainer = styled.div`
@@ -55,12 +54,19 @@ display: flex;
 `;
 
 export const Title = styled.div`
-display: flex;
-margin-right: 10px;
 color: #3b3f3f;
 `;
 
 export const Value = styled.div`
 display: flex;
 color: #3b3f3f;
+`;
+export const PlayerTitle = styled.div`
+color: #3b3f3f;
+width: 100%;
+background: grey;
+font-weight: bold;
+font-size: 20px;
+text-align: center;
+color: whitesmoke;
 `;

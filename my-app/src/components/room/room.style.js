@@ -43,3 +43,4 @@ export const RoomCell = styled.div`
   };
 
 `;
+

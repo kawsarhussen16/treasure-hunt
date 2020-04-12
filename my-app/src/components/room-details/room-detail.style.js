@@ -5,23 +5,20 @@ export const RoomDetailsContainer = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   background: #d4e5e6;
-  padding: 10px 0 10px 10px;
-
+  width: 100%;
+  padding-left: 15px;
 `;
 
 export const IDContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: start;
+  width: 100%;
 `;
 
 export const Message = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const RoomCoordinates = styled.div`
-  display: flex;
 `;
 
 export const DetailsContainer = styled.div`
@@ -40,3 +37,17 @@ export const Title = styled.div`
   font-size: 20px;
   color: #3b3f3f;
 `;
+
+
+export const RoomInfo = styled.div`
+color: #3b3f3f;
+width: calc(100%+15px);
+background: grey;
+font-weight: bold;
+font-size: 20px;
+text-align: center;
+color: whitesmoke;
+margin-left:-15px;
+`;
+
+

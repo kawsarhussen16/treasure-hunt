@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     PlayerDetailsContainer, Title, TopContainer, PlayerName,
     BottomContainer, Value, LeftContainer, RightContainer,
-    Item2, Item, PlayerNetworth
+    Item2, Item, PlayerNetworth, PlayerTitle
 } from "./player-detail.style"
 import axios from 'axios';
 
@@ -34,8 +34,11 @@ class PlayerDetails extends Component {
             this.collectPlayerinfo();
         }, cooldown * 1002)
     }
-    collectPlayerinfo = () => {
+    componentDidMount() {
+        this.firePlayerinfo();
+    }
 
+    collectPlayerinfo = () => {
         try {
             axios
                 .post(URL, config)
@@ -66,7 +69,7 @@ class PlayerDetails extends Component {
         let { name, cooldown, encumbrance, strength, speed, gold, inventory } = this.state
         return (
             <PlayerDetailsContainer>
-                <Title><button onClick={this.firePlayerinfo}> Player Detail</button></Title>
+                <PlayerTitle>PLAYER INFO</PlayerTitle>
                 <TopContainer>
                     <PlayerName>{name}</PlayerName>
                     <PlayerNetworth>{gold}</PlayerNetworth>

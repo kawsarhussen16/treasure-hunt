@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Action, FooterContainer, Explore, ActionDescription, ActionsContainer } from "./footer.style";
+import { Action, FooterContainer, Explore, ActionDescription, ExploreContainer, AllButton, ActionsContainer, } from "./footer.style";
 
 class Footer extends Component {
 
@@ -8,20 +8,20 @@ class Footer extends Component {
         //You have flown south. Flight bonus: -10% CD. Wise ExplorerL -50% CD.
         return (
             <FooterContainer>
-                <Explore> <button onClick={() => autoTraversal()} > Auto Explore </button> </Explore>
-
-                <ActionsContainer>
-                    <Action><button onClick={() => direction('n')} > N</button> </Action>
-                    <Action><button onClick={() => direction('s')} > S</button> </Action>
-                    <Action><button onClick={() => direction('e')} > E</button> </Action>
-                    <Action><button onClick={() => direction('w')} > W</button> </Action>
-                    <Action>Store</Action>
-                    <Action>$</Action>
-                    <Action>Drop</Action>
-                </ActionsContainer>
+                <AllButton>
+                    <ExploreContainer>
+                        <Explore onClick={() => autoTraversal()} > Auto Explore</Explore>
+                    </ExploreContainer>
+                    <ActionsContainer>
+                        <Action onClick={() => direction('n')} > N </Action>
+                        <Action onClick={() => direction('s')} > S </Action>
+                        <Action onClick={() => direction('e')} > E </Action>
+                        <Action onClick={() => direction('w')} > W </Action>
+                    </ActionsContainer>
+                </AllButton>
                 <ActionDescription>
                     You have flown south. Flight bonus: -10% CD. Wise bonus: -50% CD.
-        </ActionDescription>
+                </ActionDescription>
             </FooterContainer>
         );
     }

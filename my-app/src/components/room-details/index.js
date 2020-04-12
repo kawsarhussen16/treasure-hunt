@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RoomDetailsContainer, IDContainer, Title, Item, DetailsContainer, Message } from "./room-detail.style"
+import { RoomInfo, RoomDetailsContainer, IDContainer, Title, Item, DetailsContainer, Message } from "./room-detail.style"
 class RoomDetails extends Component {
     render() {
         const { room_id, title, description, players, items, exits, cooldown, messages } = this.props.curRoom;
@@ -7,6 +7,7 @@ class RoomDetails extends Component {
         const upperExits = exits ? [...exits].forEach(i => { opt += i.toUpperCase() + " | "; }) : null;
         return (
             <RoomDetailsContainer>
+                <RoomInfo>ROOM INFO</RoomInfo>
                 <IDContainer>
                     <Title>Room Id: {room_id}</Title>
                     <div>{title}</div>

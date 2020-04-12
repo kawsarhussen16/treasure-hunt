@@ -30,7 +30,9 @@ class Room extends Component {
             isCurrentRoom = true;
         }
         return (
-            <RoomCell color={displayState} isCurrentRoom={isCurrentRoom} roomWalls={roomWalls} >{displayValue}</RoomCell>
+            <>
+                <RoomCell color={displayState} isCurrentRoom={isCurrentRoom} roomWalls={roomWalls} >{displayValue}</RoomCell>
+            </>
         );
     }
 }

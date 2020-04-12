@@ -23,7 +23,8 @@ const MapBody = styled.div`
   background: black;
   display: flex;
   justify-content:center;
-  @media screen and (max-width: 700px) {
+
+  @media screen and (max-width: 600px) {
       width: 100%;
       display: block;
       margin-left: -70px;

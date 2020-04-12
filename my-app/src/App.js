@@ -37,7 +37,7 @@ class App extends Component {
     this.getCurrentinfo();
   }
   ////////////////////////////////////////////////////
-  getCurrentinfo = () => {
+  getCurrentinfo = async () => {
     try {
       axios
         .get(`${URL}/init`, config)
@@ -50,20 +50,20 @@ class App extends Component {
             };
           });
           if (res.data.items.length) {
-            setTimeout(() => {
-              this.collectTreasure();
+            setTimeout(async () => {
+              await this.collectTreasure();
             }, res.data.cooldown * 1001)
           } else if (res.data.title === "Pirate Ry's" || res.data.room_id === 467) {
-            setTimeout(() => {
-              this.nameChanger();
+            setTimeout(async () => {
+              await this.nameChanger();
             }, res.data.cooldown * 1001)
           }
           else {
             console.log("There no item to collect");
           }
           if (res.data.title === "Shop") {
-            setTimeout(() => {
-              this.sellTreasure();
+            setTimeout(async () => {
+              await this.sellTreasure();
             }, res.data.cooldown * 1001)
           } else {
             // console.log("There no shop to sell");
@@ -82,6 +82,7 @@ class App extends Component {
     axios
       .post(`${URL}/take`, treasureName, config)
       .then(res => {
+        console.log("Treasure Collected")
         this.setState({ treasure: res.data.items })
         // console.log("Trying to collect treasure" + res.data);
         // console.log(this.state.treasure)
@@ -133,7 +134,6 @@ class App extends Component {
     axios
       .post(`${URL}/move`, movement, config)
       .then(res => {
-        console.log(res)
         const { room_id, coordinates, exits } = res.data;
         let graph = this.makingGraph(room_id, coordinates, exits)
 
@@ -157,8 +157,8 @@ class App extends Component {
       .post(`${URL}/move`, movement, config)
       .then(res => {
         if (res.data.items.length) {
-          setTimeout(() => {
-            this.collectTreasure();
+          setTimeout(async () => {
+            await this.collectTreasure();
           }, res.data.cooldown * 1001)
         } else {
           console.log("There no item to collect");
