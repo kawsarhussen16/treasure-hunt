@@ -30,7 +30,7 @@ class RoomDetails extends Component {
                         <div>{(players && players.length) ? players : "No Player"}</div>
                     </Item>
                     <div><Title>Cooldown time: </Title>{cooldown ? cooldown : 0} seconds</div>
-                    <div><Title>Moving Options: </Title>{upperExits ? (opt.slice(0, opt.length - 2)) : "None"} </div>
+                    <div><Title>Moving Options: </Title>{opt ? (opt.slice(0, opt.length - 2)) : "None"} </div>
 
                 </DetailsContainer>
             </RoomDetailsContainer>
