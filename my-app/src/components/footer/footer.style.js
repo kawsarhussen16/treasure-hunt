@@ -16,8 +16,10 @@ padding: 0;
 display: flex;
 flex-wrap: wrap;
 align-items: center;
+overflow-x: hidden;
 @media screen and (max-width: 700px) {
   width: 100%;
+  padding: 5px;
 }
 `
 
@@ -32,7 +34,7 @@ export const Explore = styled.div`
   width: 100px;
   border-radius: 5px;
   background: grey;
-  margin: auto;
+  margin: auto 5px;
   height: auto;
   padding: 2px;
   text-align: center;
@@ -83,5 +85,6 @@ export const ActionDescription = styled.div`
   align-items:center;
   @media screen and (max-width: 700px) {
     width: 100%;
+    padding: 5px;
   }
 `;
