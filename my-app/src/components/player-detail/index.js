@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-    PlayerDetailsContainer, Title, TopContainer, PlayerName,
-    BottomContainer, Value, LeftContainer, RightContainer,
-    Item2, Item, PlayerNetworth, PlayerTitle
+    PlayerDetailsContainer, Title, PlayerTitle, Value, Item, Inventory
 } from "./player-detail.style"
 import axios from 'axios';
 
@@ -16,28 +14,42 @@ class PlayerDetails extends Component {
     constructor() {
         super();
         this.state = {
-            name: " ",
-            cooldown: 2.0,
-            encumbrance: 2,
+            name: "Mr Lion",
+            cooldown: 10,
+            encumbrance: 19,
             strength: 10,
             speed: 10,
-            gold: null,
-            inventory: [],
+            gold: 8600,
+            inventory: [
+                "shiny treasure",
+                "shiny treasure",
+                "shiny treasure",
+                "shiny treasure",
+                "shiny treasure",
+                "great treasure",
+                "great treasure",
+                "small treasure",
+                "tiny treasure"
+            ],
+            abilities: [
+                "pray",
+                "mine"
+            ],
             status: [],
             errors: [],
-            messages: []
+            messages: [],
         }
     }
     firePlayerinfo = () => {
-        let { cooldown } = this.props
-        setTimeout(() => {
-            this.collectPlayerinfo();
-        }, cooldown * 1002)
+        let { cooldown } = this.state.cooldown;
+        setTimeout(async () => {
+            await this.collectPlayerinfo();
+        }, cooldown)
     }
     componentDidMount() {
+        this.setState({ cooldown: this.props.cooldown })
         this.firePlayerinfo();
     }
-
     collectPlayerinfo = () => {
         try {
             axios
@@ -66,40 +78,36 @@ class PlayerDetails extends Component {
 
     }
     render() {
-        let { name, cooldown, encumbrance, strength, speed, gold, inventory } = this.state
+        let { name, cooldown, encumbrance, strength, speed, gold, inventory } = this.state;
+        let treasures = [...inventory];
         return (
             <PlayerDetailsContainer>
                 <PlayerTitle>PLAYER INFO</PlayerTitle>
-                <TopContainer>
-                    <PlayerName>{name}</PlayerName>
-                    <PlayerNetworth>{gold}</PlayerNetworth>
-                </TopContainer>
-                <BottomContainer>
-                    <LeftContainer>
-                        <Item>
-                            <Title>Encumbrance:</Title>
-                            <Value>{encumbrance}</Value>
-                        </Item>
-                        <Item>
-                            <Title>Cooldown:</Title>
-                            <Value>{cooldown}</Value>
-                        </Item>
-                        <Item>
-                            <Title>Strength:</Title>
-                            <Value>{strength}</Value>
-                        </Item>
-                        <Item>
-                            <Title>Speed:</Title>
-                            <Value>{speed}</Value>
-                        </Item>
-                    </LeftContainer>
-                    <RightContainer>
-                        <Item2>
-                            <Title>Inventory:</Title>
-                            <Value>{inventory}</Value>
-                        </Item2>
-                    </RightContainer>
-                </BottomContainer>
+                <PlayerTitle>{name}</PlayerTitle>
+                <Item>
+                    <Title>Gold:</Title><Value> {gold}</Value>
+                </Item>
+                <Item>
+                    <Title>Encumbrance:</Title>
+                    <Value>{encumbrance}</Value>
+                </Item>
+                <Item>
+                    <Title>Cooldown:</Title>
+                    <Value>{cooldown}</Value>
+                </Item>
+                <Item>
+                    <Title>Strength:</Title>
+                    <Value>{strength}</Value>
+                </Item>
+                <Item>
+                    <Title>Speed:</Title>
+                    <Value>{speed}</Value>
+                </Item>
+
+                <Inventory>
+                    <Title>Inventory:</Title>
+                    <Value> {treasures.map(treasure => <p>{treasure}</p>)}</Value>
+                </Inventory>
             </PlayerDetailsContainer>
         );
     }

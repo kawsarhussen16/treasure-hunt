@@ -31,6 +31,7 @@ class App extends Component {
       curRoom: {},
       player: {},
       treasure: {},
+      cooldown: 10
     };
   }
   componentDidMount() {
@@ -46,6 +47,7 @@ class App extends Component {
             return {
               ...prevState,
               curRoom: res.data,
+              cooldown: res.data.cooldown * 1001,
               map: addRoomToMap(this.state.map, res.data),
             };
           });
@@ -243,7 +245,7 @@ class App extends Component {
   };
 
   render() {
-    let { map, /*currentRoom, currentPlayer,*/ curRoom, graph } = this.state
+    let { map, cooldown, curRoom, graph } = this.state
     let currentRoomMapIndex = null
     if (Object.entries(this.state.curRoom).length !== 0 && this.state.curRoom.constructor === Object) {
       // console.log('*')
@@ -253,7 +255,7 @@ class App extends Component {
     return (
       <AppContainer>
         <Header />
-        <Body map={map} currentRoomMapIndex={currentRoomMapIndex} curRoom={curRoom} /*currentRoom={currentRoom} currentPlayer={currentPlayer}*/ graph={graph} />
+        <Body map={map} currentRoomMapIndex={currentRoomMapIndex} curRoom={curRoom} cooldown={cooldown} graph={graph} />
         <Footer autoTraversal={this.autoTraversal} direction={this.direction} /*currentRoom={currentRoom}*/ />
       </AppContainer>
     );

@@ -35,7 +35,7 @@ const MapBody = styled.div`
 class Body extends Component {
 
     render() {
-        let { map, currentRoom, currentRoomMapIndex, curRoom } = this.props
+        let { map, currentRoom, cooldown, currentRoomMapIndex, curRoom } = this.props
         return (
             <BodyContainer>
                 <MapBody>
@@ -43,7 +43,7 @@ class Body extends Component {
                 </MapBody>
                 <BodyRightContainer>
                     <RoomDetails room={currentRoom} curRoom={curRoom} />
-                    <PlayerDetails cooldown={curRoom.cooldown} player={curRoom.players} />
+                    <PlayerDetails cooldown={cooldown} player={curRoom.players} />
                 </BodyRightContainer>
             </BodyContainer>
         );
