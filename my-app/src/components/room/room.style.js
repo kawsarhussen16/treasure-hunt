@@ -3,6 +3,7 @@ export const RoomCell = styled.div`
   height: 14px;
   width: 14px;
   margin: 1px;
+  
   @media screen and (max-width: 700px) {
     height: 6px;
     width: 6px;
@@ -43,4 +44,14 @@ export const RoomCell = styled.div`
   };
 
 `;
+
+export const DisplayValue = styled.div`
+font-size: 12px;
+margin-left: 2px;
+margin-top: -1px;
+padding: 0;
+@media screen and (max-width: 700px) {
+  display: none;
+}
+`
 

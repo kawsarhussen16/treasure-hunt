@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getRoomWalls } from '../../gameFunctions';
-import { RoomCell } from "./room.style"
+import { RoomCell, DisplayValue } from "./room.style"
 class Room extends Component {
     render() {
         let { displayState, currentRoomMapIndex, index, validMoveLabels, room } = this.props
@@ -31,7 +31,7 @@ class Room extends Component {
         }
         return (
             <>
-                <RoomCell color={displayState} isCurrentRoom={isCurrentRoom} roomWalls={roomWalls} >{displayValue}</RoomCell>
+                <RoomCell color={displayState} isCurrentRoom={isCurrentRoom} roomWalls={roomWalls} ><DisplayValue>{displayValue}</DisplayValue></RoomCell>
             </>
         );
     }
